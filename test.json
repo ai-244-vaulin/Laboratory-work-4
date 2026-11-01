@@ -1,0 +1,74 @@
+{
+  "patient": {
+    "full_name": "Іваненко Олексій",
+    "email": "ivanenko@example.com",
+    "phone_number": "+380501234567",
+    "age": 0,
+    "health_status": "Реабілітація після травми кисті",
+    "calibration_profile": {
+      "calibration_date": "2026-10-28",
+      "anthropometric_params": {
+        "interjoint_distance": 28.5,
+        "base_extension_angle": 15.0
+      },
+      "hand_keypoints": [
+        {
+          "marker_num": 1,
+          "coord_x": 12.4,
+          "coord_y": 45.2,
+          "coord_z": 420.0
+        }
+      ]
+    },
+    "exercise_program": {
+      "program_name": "Відновлення дрібної моторики кисті",
+      "training_schedule": "Щодня по 20 хвилин",
+      "doctor": {
+        "full_name": "Коваленко Ірина",
+        "email": "kovalenko.rehab@example.com",
+        "phone_number": "+380679876543",
+        "specialization": "Фізична та реабілітаційна медицина",
+        "position": "Лікар-реабілітолог"
+      },
+      "load_parameters": {
+        "target_bend_angle": 60.0,
+        "repetitions_tally": 15,
+        "execution_tempo": "Повільний"
+      },
+      "exercises": [
+        {
+          "exercise_name": "Почергове згинання пальців",
+          "exercise_description": "Повільне згинання та розгинання кожного пальця до цільового кута",
+          "target_trajectory": "Дуга згинання фаланг 60 градусів",
+          "execution_duration": 180,
+          "execution_metrics": {
+            "joint_angle": 58.5,
+            "movement_speed": 25.0,
+            "completed_reps_tally": 12,
+            "accuracy_rate": 96.0,
+            "compensatory_movements": [
+              {
+                "movement_type": "Нахил кисті",
+                "wrist_deviation_angle": 2.0,
+                "presence_status": "Відсутні"
+              }
+            ],
+            "feedback": {
+              "achieved_amplitude": 58.5,
+              "correctness_status": "Правильно",
+              "overstrain_warning": "Норма"
+            }
+          }
+        }
+      ]
+    },
+    "recovery_statistics": [
+      {
+        "training_date": "2026-10-28",
+        "avg_amplitude": 56.0,
+        "max_amplitude": 60.0,
+        "errors_tally": 1
+      }
+    ]
+  }
+}

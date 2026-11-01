@@ -1,0 +1,431 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AR-MotorTrainer Data Schema",
+  "description": "Фізична схема ієрархічної бази даних ПП інформаційної підтримки виконання реабілітаційних вправ на дрібну моторику",
+  "type": "object",
+  "properties": {
+    "patient": {
+      "description": "Дані пацієнта, який проходить курс реабілітації дрібної моторики",
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "description": "Прізвище та ім'я пацієнта",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "pattern": "^[А-ЯІЇЄҐA-Z][а-яіїєґ'a-z]+\\s[А-ЯІЇЄҐA-Z][а-яіїєґ'a-z]+$"
+        },
+        "email": {
+          "description": "Адреса електронної пошти пацієнта",
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 100
+        },
+        "phone_number": {
+          "description": "Контактний номер телефону пацієнта у міжнародному форматі України",
+          "type": "string",
+          "minLength": 13,
+          "maxLength": 13,
+          "pattern": "^\\+380[0-9]{9}$"
+        },
+        "age": {
+          "description": "Вік пацієнта у повних роках",
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 120
+        },
+        "health_status": {
+          "description": "Поточний стан здоров'я пацієнта та медичний діагноз",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 250
+        },
+        "calibration_profile": {
+          "description": "Профіль калібрування AR-маркерів на кисті пацієнта",
+          "type": "object",
+          "properties": {
+            "calibration_date": {
+              "description": "Дата формування профілю калібрування",
+              "type": "string",
+              "format": "date"
+            },
+            "anthropometric_params": {
+              "description": "Індивідуальні антропометричні параметри кисті пацієнта",
+              "type": "object",
+              "properties": {
+                "interjoint_distance": {
+                  "description": "Відстань між суглобами пальців кисті у міліметрах",
+                  "type": "number",
+                  "minimum": 5,
+                  "maximum": 150
+                },
+                "base_extension_angle": {
+                  "description": "Базовий кут розгинання пальців у стані спокою в градусах",
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 90
+                }
+              },
+              "required": [
+                "interjoint_distance",
+                "base_extension_angle"
+              ]
+            },
+            "hand_keypoints": {
+              "description": "Набір еталонних контрольних точок кисті з AR-маркерами",
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 25,
+              "uniqueItems": true,
+              "items": {
+                "description": "Просторові координати окремого AR-маркера на кисті",
+                "type": "object",
+                "properties": {
+                  "marker_num": {
+                    "description": "Порядковий номер AR-маркера",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 25
+                  },
+                  "coord_x": {
+                    "description": "Координата маркера по осі X у міліметрах",
+                    "type": "number",
+                    "minimum": -1000,
+                    "maximum": 1000
+                  },
+                  "coord_y": {
+                    "description": "Координата маркера по осі Y у міліметрах",
+                    "type": "number",
+                    "minimum": -1000,
+                    "maximum": 1000
+                  },
+                  "coord_z": {
+                    "description": "Координата маркера по осі Z (відстань до камери) у міліметрах",
+                    "type": "number",
+                    "minimum": 100,
+                    "maximum": 2000
+                  }
+                },
+                "required": [
+                  "marker_num",
+                  "coord_x",
+                  "coord_y",
+                  "coord_z"
+                ]
+              }
+            }
+          },
+          "required": [
+            "calibration_date",
+            "anthropometric_params",
+            "hand_keypoints"
+          ]
+        },
+        "exercise_program": {
+          "description": "Індивідуальна програма реабілітаційних вправ пацієнта",
+          "type": "object",
+          "properties": {
+            "program_name": {
+              "description": "Назва програми реабілітаційних вправ",
+              "type": "string",
+              "minLength": 5,
+              "maxLength": 150
+            },
+            "training_schedule": {
+              "description": "Розклад проведення реабілітаційних тренувань",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 100
+            },
+            "doctor": {
+              "description": "Дані лікаря-реабілітолога, який налаштував програму вправ",
+              "type": "object",
+              "properties": {
+                "full_name": {
+                  "description": "Прізвище та ім'я лікаря-реабілітолога",
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 100,
+                  "pattern": "^[А-ЯІЇЄҐA-Z][а-яіїєґ'a-z]+\\s[А-ЯІЇЄҐA-Z][а-яіїєґ'a-z]+$"
+                },
+                "email": {
+                  "description": "Адреса електронної пошти лікаря-реабілітолога",
+                  "type": "string",
+                  "format": "email",
+                  "minLength": 5,
+                  "maxLength": 100
+                },
+                "phone_number": {
+                  "description": "Контактний номер телефону лікаря-реабілітолога",
+                  "type": "string",
+                  "minLength": 13,
+                  "maxLength": 13,
+                  "pattern": "^\\+380[0-9]{9}$"
+                },
+                "specialization": {
+                  "description": "Медична спеціалізація лікаря",
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 100
+                },
+                "position": {
+                  "description": "Посада лікаря-реабілітолога",
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 100
+                }
+              },
+              "required": [
+                "full_name",
+                "email",
+                "phone_number",
+                "specialization",
+                "position"
+              ]
+            },
+            "load_parameters": {
+              "description": "Параметри навантаження для програми вправ",
+              "type": "object",
+              "properties": {
+                "target_bend_angle": {
+                  "description": "Цільовий кут згинання/розгинання пальців у градусах",
+                  "type": "number",
+                  "minimum": 5,
+                  "maximum": 180
+                },
+                "repetitions_tally": {
+                  "description": "Цільова кількість повторень вправи",
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100
+                },
+                "execution_tempo": {
+                  "description": "Темп виконання реабілітаційної вправи",
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 50
+                }
+              },
+              "required": [
+                "target_bend_angle",
+                "repetitions_tally",
+                "execution_tempo"
+              ]
+            },
+            "exercises": {
+              "description": "Перелік реабілітаційних вправ на дрібну моторику",
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 20,
+              "uniqueItems": true,
+              "items": {
+                "description": "Опис та результати виконання окремої реабілітаційної вправи",
+                "type": "object",
+                "properties": {
+                  "exercise_name": {
+                    "description": "Назва реабілітаційної вправи",
+                    "type": "string",
+                    "minLength": 4,
+                    "maxLength": 100,
+                    "pattern": "^[А-ЯІЇЄҐA-Z][а-яіїєґ'a-z0-9\\s-]{3,99}$"
+                  },
+                  "exercise_description": {
+                    "description": "Детальний опис техніки виконання вправи",
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 500
+                  },
+                  "target_trajectory": {
+                    "description": "Цільова траєкторія руху пальців",
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 200
+                  },
+                  "execution_duration": {
+                    "description": "Тривалість виконання вправи у секундах",
+                    "type": "integer",
+                    "minimum": 10,
+                    "maximum": 3600
+                  },
+                  "execution_metrics": {
+                    "description": "Поточні показники виконання реабілітаційної вправи",
+                    "type": "object",
+                    "properties": {
+                      "joint_angle": {
+                        "description": "Зафіксований кут згинання суглоба у градусах",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 180
+                      },
+                      "movement_speed": {
+                        "description": "Швидкість руху пальців у градусах за секунду",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 500
+                      },
+                      "completed_reps_tally": {
+                        "description": "Кількість виконаних повторень вправи",
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "accuracy_rate": {
+                        "description": "Відсоток точності руху пальців",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "compensatory_movements": {
+                        "description": "Зафіксовані небажані компенсаторні рухи кисті",
+                        "type": "array",
+                        "minItems": 0,
+                        "maxItems": 10,
+                        "uniqueItems": true,
+                        "items": {
+                          "description": "Дані про окремий компенсаторний рух",
+                          "type": "object",
+                          "properties": {
+                            "movement_type": {
+                              "description": "Тип замісного руху зап'ястя або кисті",
+                              "type": "string",
+                              "minLength": 3,
+                              "maxLength": 100
+                            },
+                            "wrist_deviation_angle": {
+                              "description": "Кут небажаного відхилення зап'ястя у градусах",
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 90
+                            },
+                            "presence_status": {
+                              "description": "Статус наявності компенсаторного руху",
+                              "type": "string",
+                              "minLength": 3,
+                              "maxLength": 50
+                            }
+                          },
+                          "required": [
+                            "movement_type",
+                            "wrist_deviation_angle",
+                            "presence_status"
+                          ]
+                        }
+                      },
+                      "feedback": {
+                        "description": "Зворотний зв'язок щодо виконання вправи в реальному часі",
+                        "type": "object",
+                        "properties": {
+                          "achieved_amplitude": {
+                            "description": "Досягнута амплітуда руху в градусах",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 180
+                          },
+                          "correctness_status": {
+                            "description": "Індикатор правильності виконання руху",
+                            "type": "string",
+                            "minLength": 3,
+                            "maxLength": 50
+                          },
+                          "overstrain_warning": {
+                            "description": "Попередження про ризик перенапруження",
+                            "type": "string",
+                            "minLength": 3,
+                            "maxLength": 150
+                          }
+                        },
+                        "required": [
+                          "achieved_amplitude",
+                          "correctness_status",
+                          "overstrain_warning"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "joint_angle",
+                      "movement_speed",
+                      "completed_reps_tally",
+                      "accuracy_rate",
+                      "compensatory_movements",
+                      "feedback"
+                    ]
+                  }
+                },
+                "required": [
+                  "exercise_name",
+                  "exercise_description",
+                  "target_trajectory",
+                  "execution_duration",
+                  "execution_metrics"
+                ]
+              }
+            }
+          },
+          "required": [
+            "program_name",
+            "training_schedule",
+            "doctor",
+            "load_parameters",
+            "exercises"
+          ]
+        },
+        "recovery_statistics": {
+          "description": "Історія статистики відновлення моторики пацієнта",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 365,
+          "uniqueItems": true,
+          "items": {
+            "description": "Статистичний запис за результатами одного тренувального дня",
+            "type": "object",
+            "properties": {
+              "training_date": {
+                "description": "Дата проведення тренування",
+                "type": "string",
+                "format": "date"
+              },
+              "avg_amplitude": {
+                "description": "Середня досягнута амплітуда рухів у градусах",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 180
+              },
+              "max_amplitude": {
+                "description": "Максимальна досягнута амплітуда рухів у градусах",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 180
+              },
+              "errors_tally": {
+                "description": "Кількість помилок під час тренування",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 500
+              }
+            },
+            "required": [
+              "training_date",
+              "avg_amplitude",
+              "max_amplitude",
+              "errors_tally"
+            ]
+          }
+        }
+      },
+      "required": [
+        "full_name",
+        "email",
+        "phone_number",
+        "age",
+        "health_status",
+        "calibration_profile",
+        "exercise_program",
+        "recovery_statistics"
+      ]
+    }
+  },
+  "required": [
+    "patient"
+  ]
+}
